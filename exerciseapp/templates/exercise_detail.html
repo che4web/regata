@@ -2,9 +2,9 @@
 {%block content %}
         <h1> Задание {{exercise.id}}</h1>
         <div > <b>Название: </b>{{exercise.name}}</div> 
+{% if request.user.is_authenticated%}
         <div > <b>Текс: </b>{{exercise.text}}</div> 
 
-{% if request.user.is_authenticated%}
         <div > <b>Решение: </b>{{exercise.solution}}</div> 
         {%endif%}
         <div > <b>Баллы: </b>{{exercise.score}}</div> 
