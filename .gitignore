@@ -1,0 +1,10 @@
+*.pyc
+db
+db.sqlite3
+*settings.py
+*.pyc
+*.swp
+
+*settings_local.py
+*~
+*migrations/
