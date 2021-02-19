@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html>
+    <head></head>
+    <body>
+        <h1> Школьная Регата Это шаблон</h1>
+            {% for ex in exercise_list %}
+            <li> <a href=" {{ex.get_absolure_url }}" > {{ex.name}}.</a> <b>текст:</b> {{ex.text}}  <b>баллы:</b> {{ex.score}} </li>
+            {% endfor %}
+    
+    </body>
+</html>
