@@ -6,6 +6,12 @@ from exerciseapp.models import Exercise
 
 # Create your views here.
 
+def home(request):
+    exercise_list = Exercise.objects.all()
+    context ={'exercise_list':exercise_list}
+    return render(request,'home.html',context)
+
+
 def exercise_list(request):
     exercise_list = Exercise.objects.all()
     context ={'exercise_list':exercise_list}

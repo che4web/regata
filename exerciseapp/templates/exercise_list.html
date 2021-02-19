@@ -1,7 +1,20 @@
 {%extends 'base.html'%}
 {%block content %}
-            <h1> Школьная Регата Это шаблон</h1>
+            <h1> Список заданий</h1>
+            <table class="table table-hover table-striped"> 
+                <thead>
+                    <tr>
+                        <th> ID</th>
+                        <th> Задание</th>
+                        <th> Баллы</th>
+                    </tr>
+                </thead>
+
+                <tbody>
             {% for ex in exercise_list %}
-            <li> <a href=" {{ex.get_absolure_url }}" > {{ex.name}}.</a> <b>текст:</b> {{ex.text}}  <b>баллы:</b> {{ex.score}} </li>
+            <tr><td> {{ex.id}}</td><td><a href=" {{ex.get_absolure_url }}" > {{ex.name}}.</a> </td> <td> {{ex.score}} </td></tr>
             {% endfor %}
+                </tbody>
+            </table> 
+
 {%endblock%}
