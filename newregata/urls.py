@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path
 from exerciseapp.views import exercise_list,exercise_detail,home
+from competitionsapp.views import answer_create
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('', home),
     path('exercise/', exercise_list),
     path('exercise/<int:pk>/', exercise_detail,name="exercise-detail"),
+    path('aswer/create', answer_create,name="answer-create"),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

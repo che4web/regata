@@ -2,12 +2,33 @@
 {%block content %}
         <h1> Задание {{exercise.id}}</h1>
         <div > <b>Название: </b>{{exercise.name}}</div> 
-{% if request.user.is_authenticated%}
-        <div > <b>Текс: </b>{{exercise.text}}</div> 
+        {% if request.user.is_authenticated%}
+        <div class="row">
+            <div class="col-8" > <b>Текс: </b>{{exercise.text}}</div> 
+            {% if exercise.image %}
+            <div class="col-4">
+                <img  class=" exercise-image" src="{{exercise.image.url}}">
+            </div>
+            {%endif%}
 
-        <div > <b>Решение: </b>{{exercise.solution}}</div> 
+        </div>
+            <div > <b>Решение: </b>{{exercise.solution}}</div> 
         {%endif%}
         <div > <b>Баллы: </b>{{exercise.score}}</div> 
+            <hr>
+        <h2>Ответ </h2>
+        {%if success %}
+        <div class="alert alert-success">{{success}}</div>
+        {%endif%}
+        <form method="POST" action="/answer_create">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div class="row">
+            <button class="btn btn-primary"> Отправить </button>
+            </div>
+        </form>
+        {{post_data}}
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {%endblock%}
+
