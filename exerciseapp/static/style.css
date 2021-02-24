@@ -24,3 +24,6 @@ h1{
 .text{
     margin:20px
 }
+.score-table--head{
+    text-align:center
+}

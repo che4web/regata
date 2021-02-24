@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from exerciseapp.models import Exercise
-from competitionsapp.models import Team,Grade
-from django.db.models import Sum,Q
+from competitionsapp.models import Team,Grade,Raund
+from django.db.models import Sum,Q,Count
 # Create your views here.
 def answer_create(request):
     return None
@@ -12,6 +12,7 @@ def score_table(request):
     context ={'exercise_list':exercise_list}
     team_list = Team.objects.all()
     context['team_list'] = team_list
+    context['raund_list'] = Raund.objects.all().annotate(Count('exercise'))
     table=[]
     team_list2 = team_list.values('id','name','answer__exercise').annotate(score=Sum('answer__grade__value'))
     team_list3 = team_list.values('id','name').annotate(score=Sum('answer__grade__value'))
@@ -25,14 +26,6 @@ def score_table(request):
         row.append(tmp[0]['score'])
 
 
-        #for exercise in exercise_list:
-        #    answer_list = Grade.objects.filter(
-        #        answer__exercise=exercise,
-        #        answer__team=team)
-        #    score = answer_list.aggregate(Sum('value'))['value__sum']
-        #score_list = exercise_list.value().annotate(total_score=Sum('answer__grade__value'))
-        #for score in score_list:
-        #    row.append(score.total_score)
         table.append(row)
 
     context['score_table'] = table
