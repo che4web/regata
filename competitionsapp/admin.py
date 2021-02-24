@@ -1,5 +1,5 @@
 from django.contrib import admin
-from competitionsapp.models import Team,Answer
+from competitionsapp.models import Team,Answer,Grade,Judge,Raund
 
 # Register your models here.
 class AnswerInline(admin.TabularInline):
@@ -15,4 +15,15 @@ class TeamAdmin(admin.ModelAdmin):
 class AnswerAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(Raund)
+class RaundAdmin(admin.ModelAdmin):
+    pass
+@admin.register(Judge)
+class JudgeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Grade)
+class GradeAdmin(admin.ModelAdmin):
+    pass
 

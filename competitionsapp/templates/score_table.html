@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{% block content%}
+<h1> Зачетная таблица</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th> Название комманды</th>
+            {% for ex in exercise_list%}
+            <th> {{ex.name}}</th>
+            {%endfor%}
+            <th>Итого</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for team in score_table%}
+        <tr>
+            {%for col in team%}
+            <td>{{col}}</td>
+        {%endfor%}
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+{%endblock%}
