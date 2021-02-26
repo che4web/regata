@@ -1,0 +1,22 @@
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+         <th>комманда</th>
+         <th>Ответ </th>
+         <th>Оценка</th>
+         <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for answer in answer_list%}
+            <tr>
+                <form method="POST">    
+                    <td>{{answer.team.name}}</td>
+                    <td>{{answer.value}}</td>
+                    <td><input value="{{answer.my_grade.value}}"></td>
+                    <td><button class="btn btn-primary"> Сохранить </button></td>
+                </form>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>

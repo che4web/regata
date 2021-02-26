@@ -2,6 +2,9 @@ from django.shortcuts import render
 from exerciseapp.models import Exercise
 from competitionsapp.models import Team,Grade,Raund
 from django.db.models import Sum,Q,Count
+from django.http import JsonResponse
+
+import json
 # Create your views here.
 def answer_create(request):
     return None
@@ -31,3 +34,8 @@ def score_table(request):
     context['score_table'] = table
 
     return render(request,'score_table.html',context)
+
+def simple_ajax(request):
+    data  = json.loads(request.body.decode('utf-8'))
+    text = data['text']
+    return JsonResponse({'data':text})

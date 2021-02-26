@@ -27,3 +27,7 @@ h1{
 .score-table--head{
     text-align:center
 }
+.login-card{
+    max-width: 500px;
+    margin: 80px auto;
+}
