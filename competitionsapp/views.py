@@ -36,6 +36,14 @@ def score_table(request):
     return render(request,'score_table.html',context)
 
 def simple_ajax(request):
-    data  = json.loads(request.body.decode('utf-8'))
-    text = data['text']
-    return JsonResponse({'data':text})
+    data = json.loads(request.body.decode('utf-8'))
+    if data['id']:
+        grade = Grade.objects.get(id=data['id'])
+        grade.value= data['value']
+        grade.save()
+    else:
+        data.pop('id')
+        data['judge'] = request.user.judge
+        grade = Grade(**data)
+        grade.save()
+    return JsonResponse({'id':grade.id,'answer':grade.answer.id})

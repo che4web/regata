@@ -9,14 +9,34 @@
     </thead>
     <tbody>
         {%for answer in answer_list%}
-            <tr>
-                <form method="POST">    
+        <tr {%if answer.my_grade %} class="background-susccess"{%endif%} id="row-answer-{{answer.id}}">
                     <td>{{answer.team.name}}</td>
                     <td>{{answer.value}}</td>
-                    <td><input value="{{answer.my_grade.value}}"></td>
-                    <td><button class="btn btn-primary"> Сохранить </button></td>
-                </form>
+                    <td><input oninput="changeValue({{answer.id}})" value="{{answer.my_grade.value}}" id="grade-value-{{answer.id}}" grade="{{answer.my_grade.id }}" ></td>
+                    <td><button class="btn btn-primary" onclick="saveGrade({{ answer.id }})"> Сохранить </button></td>
             </tr>
         {%endfor%}
     </tbody>
 </table>
+<script>
+    function changeValue(id){
+            let row =document.getElementById('row-answer-'+id)
+            row.classList.remove('background-susccess')
+    
+    }
+function saveGrade(id){
+    let textInput = document.getElementById('grade-value-'+id)
+    let text = {
+        value:textInput.value,
+        answer_id:id,
+        id:textInput.attributes.grade.value
+    }
+    axios.post('/simple_ajax',text)
+        .then(response => {
+            const answer_id = response.data.answer
+            let row =document.getElementById('row-answer-'+answer_id)
+            row.classList.add('background-susccess')
+        })
+    }
+</script>
+

@@ -40,20 +40,7 @@
          </ul>
         </div>
 {% include 'answer_table.html' with answer_list=answer_list%}
-<input  oninput="sayHello()" id="message" value="hello" class="form-control">
-<button onclick="sayHello()" class="btn btn-primary"> скажи привет </button>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-    const csrf_token = "{{csrf_token}}"
-function sayHello(){
-    let textInput = document.getElementById('message')
-    let text = textInput.value
-    headers= {'X-CSRFToken': csrf_token}
-
-    axios.post('/simple_ajax',{text},{headers}).then(response => alert(response.data.data))
-    }
-</script>
-
 {%endblock%}
 
