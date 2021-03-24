@@ -8,8 +8,15 @@ class Team(models.Model):
     shcool = models.CharField(max_length=255,verbose_name="Школа")
     user = models.OneToOneField(User,null=True,blank=True,on_delete=models.SET_NULL)
 
+    class Meta:
+        unique_together = [
+            ['name','shcool'],
+        ]
+
     def __str__(self):
         return self.name +'. ' +self.shcool
+    def answer_count(self):
+        return self.answer_set.all().count()
 
 class Answer(models.Model):
     team = models.ForeignKey(Team,verbose_name='Комманда',on_delete=models.CASCADE,null=True)

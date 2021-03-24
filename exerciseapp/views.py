@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import  HttpResponse
-
+from django.contrib import messages
+from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from exerciseapp.models import Exercise
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from competitionsapp.models import Answer
 from competitionsapp.forms import AnswerForm
 
@@ -18,6 +22,15 @@ def exercise_list(request):
     exercise_list = Exercise.objects.all()
     context ={'exercise_list':exercise_list}
     return render(request,'exercise_list.html',context)
+
+class MyListView(LoginRequiredMixin,ListView):
+    pass
+class ExerciseListView(MyListView):
+    model = Exercise
+
+class ExerciseListView2(ListView):
+    model = Exercise
+    template_name="exerciseapp/exercise_list2.html"
 
 
 @login_required
@@ -39,6 +52,9 @@ def exercise_detail(request,pk):
             answer.team =team
             answer.exercise= exercise
             answer.save()
+            messages.success(request,"MESSAGE:Ответ успешно принять")
+
+            return redirect('exercise-list')
             context['success']='Ваш ответ принять'
 
         else:

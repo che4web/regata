@@ -10,6 +10,9 @@ class TeamAdmin(admin.ModelAdmin):
     inlines=[
         AnswerInline
     ]
+    list_display = ('id','name','shcool','answer_count',)
+    list_editable = ('name',)
+    list_filter =('shcool','name')
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):

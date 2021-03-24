@@ -6,7 +6,7 @@
             <div class="col-8" > <b>Текс: </b>{{exercise.text}}</div> 
             {% if exercise.image %}
             <div class="col-4">
-                <img  class=" exercise-image" src="{{exercise.image.url}}">
+                <img  class=" exercise-image" src="{{exercise.image.main.url}}">
             </div>
             {%endif%}
 
@@ -20,7 +20,7 @@
             <div class="alert alert-success">{{success}}</div>
             {%endif%}
             {% if not answer %}
-            <form method="POST" action="/answer_create">
+            <form method="POST" >
                 {% csrf_token %}
                 {{form.as_p}}
                 <div class="row">
@@ -29,7 +29,7 @@
             </form>
             {%else%}
             <b>ваш ответ:</b>
-            {{answer.value}}
+            {{answer.value|safe}}
             {%endif%}
          {%endif%}
          <div>Оценки Жюри
