@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{% block content%}
+<h1> Зачетная таблица</h1>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th rowspan="2"> Название комманды</th>
+            {% for raund in raund_list%}
+            <th class="score-table--head" colspan={{raund.exercise__count}}> {{raund.name}}</th>
+            {% endfor%}
+            <th rowspan="2">Итого</th>
+
+        </tr>
+        <tr>
+            {% for ex in exercise_list%}
+            <th> {{ex.name}}</th>
+            {%endfor%}
+        </tr>
+    </thead>
+    <tbody>
+        {%for team in score_table%}
+        <tr>
+            {%for col in team%}
+            <td>{{col}}</td>
+        {%endfor%}
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+{%endblock%}

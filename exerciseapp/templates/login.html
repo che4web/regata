@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class=" login-card card ">
+    <div class="card-body">
+{% if form.errors %}
+<p>Имя или пароль пользователя не верны</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>У вас не достаточно прав, попробуйте войти под другим пользователем</p>
+    {% else %}
+    <p>Авторизируйтесь чтобы увидит эту страницу.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td> <b>Логин:</b></td>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td><b>Пароль:</b></td>
+    <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="Войти" class="btn btn-primary">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+</div>
+</div>
+
+
+{% endblock %}
