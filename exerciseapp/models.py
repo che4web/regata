@@ -35,9 +35,12 @@ class Exercise(models.Model):
             return 'defaul.png'
     def admin_t(self):
         if self.image:
-            return mark_safe('<img src="{}">'.format(self.image.url))
+            return mark_safe('<img src="{}">'.format(self.image['preview'].url))
         else:
             return 'нет картинки'
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
+        permissions = [
+            ('some_prem',' Мое право')
+        ]

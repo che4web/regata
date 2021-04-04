@@ -14,9 +14,9 @@ class ExerciseAdmin2(admin.ModelAdmin):
     readonly_fields = ('admin_t',)
 
 
-from  django.contrib.admin  import  AdminSite
-class  MyAdminSite(AdminSite):
-    site_header =   'Физическая регата'
+#from  django.contrib.admin  import  AdminSite
+#class  MyAdminSite(AdminSite):
+#    site_header =   'Физическая регата'
 
-admin_site = MyAdminSite(name="admin")
-admin_site.register(Exercise,ExerciseAdmin2)
+#admin.site = MyAdminSite(name="admin")
+admin.site.register(Exercise,ExerciseAdmin2)

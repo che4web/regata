@@ -15,18 +15,33 @@ def score_table(request):
     context ={'exercise_list':exercise_list}
     team_list = Team.objects.all()
     context['team_list'] = team_list
-    context['raund_list'] = Raund.objects.all().annotate(Count('exercise'))
+    raund_list = Raund.objects.all().annotate(Count('exercise'))
+    context['raund_list'] = raund_list
     table=[]
-    team_list2 = team_list.values('id','name','answer__exercise').annotate(score=Sum('answer__grade__value'))
+    team_list2 = team_list.values(
+            'id',
+            'name',
+            'answer__exercise'
+        ).annotate(score=Sum(
+            'answer__exercise__score',
+            filter=Q(answer__correct=True)))
     team_list3 = team_list.values('id','name').annotate(score=Sum('answer__grade__value'))
     for team in team_list:
-        tmp= team_list2.filter(id=team.id)
         row = [team.name]
-        for t in tmp:
-            row.append(t['score'])
+        for r in raund_list:
+            for e in r.exercise.all():
+                answer =  e.answer_set.filter(team=team).first()
+                if answer:
+                    if answer.correct:
+                        row.append(answer.exercise.score)
+                    else:
+                        row.append(0)
 
-        tmp= team_list3.filter(id=team.id)
-        row.append(tmp[0]['score'])
+                else:
+                    row.append('')
+
+        tmp= team.answer_set.filter(correct=True).aggregate(score=Sum('exercise__score'))
+        row.append(tmp['score'])
 
 
         table.append(row)
