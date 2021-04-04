@@ -3,7 +3,7 @@
         <h1> Задание {{exercise.id}}</h1>
         <div > <b>Название: </b>{{exercise.name}}</div> 
         <div class="row">
-            <div class="col-8" > <b>Текс: </b>{{exercise.text}}</div> 
+            <div class="col-8" > <b>Текс: </b>{{exercise.text|safe}}</div> 
             {% if exercise.image %}
             <div class="col-4">
                 <img  class=" exercise-image" src="{{exercise.image.url}}">
