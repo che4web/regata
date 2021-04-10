@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import  HttpResponse
-
+from django.contrib import messages
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from exerciseapp.models import Exercise
-from competitionsapp.models import Answer
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from competitionsapp.models import Answer,Raund
 from competitionsapp.forms import AnswerForm
 
 # Create your views here.
@@ -15,10 +20,37 @@ def home(request):
 
 @login_required
 def exercise_list(request):
-    exercise_list = Exercise.objects.all()
+    exercise_list = Exercise.objects.exclude(raund__status="NO")
     context ={'exercise_list':exercise_list}
     return render(request,'exercise_list.html',context)
 
+class MyListView(LoginRequiredMixin,ListView):
+    pass
+class ExerciseListView(MyListView):
+    model = Exercise
+    def get_context_data(self,*args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['raund'] = Raund.objects.all()
+        return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.user.has_perm('exerciseapp.some_prem'):
+            return queryset.exclude(raund__status="NO")
+        else:
+            return self.model.objects.none()
+
+
+class ExerciseListView2(ListView):
+    model = Exercise
+    template_name="exerciseapp/exercise_list2.html"
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.exclude(raund__status="NO")
+
+class ExerciseCreateView(CreateView):
+    model =Exercise
+    fields = "__all__"
 
 @login_required
 def exercise_detail(request,pk):
@@ -39,6 +71,9 @@ def exercise_detail(request,pk):
             answer.team =team
             answer.exercise= exercise
             answer.save()
+            messages.success(request,"MESSAGE:Ответ успешно принять")
+
+            return redirect('exercise-list')
             context['success']='Ваш ответ принять'
 
         else:

@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+{%block content %}
+            <h1> Список заданий</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for ex in exercise_list %}
+            <div clas="col">
+            <div class="card" >
+                {%if ex.image%}
+                <img src="{{ ex.image.preview.url }}" class="card-img-top" alt="...">
+                {%endif%}
+                <div class="card-body">
+                    <h5 class="card-title">{{ex.name}}</h5>
+                    <p class="card-text"> немножко текста</p>
+                    <a href="{{ex.get_absolute_url}}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+            </div>
+{%endblock%}

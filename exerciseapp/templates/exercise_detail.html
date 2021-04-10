@@ -6,12 +6,14 @@
             <div class="col-8" > <b>Текс: </b>{{exercise.text|safe}}</div> 
             {% if exercise.image %}
             <div class="col-4">
-                <img  class=" exercise-image" src="{{exercise.image.url}}">
+                <img  class=" exercise-image" src="{{exercise.image.main.url}}">
             </div>
             {%endif%}
 
         </div>
+        {% if exercise.raund.status == "DO" %}
             <div > <b>Решение: </b>{{exercise.solution}}</div> 
+            {%endif%}
         <div > <b>Баллы: </b>{{exercise.score}}</div> 
             <hr>
         <h2>Ответ </h2>
@@ -29,7 +31,7 @@
             </form>
             {%else%}
             <b>ваш ответ:</b>
-            {{answer.value}}
+            {{answer.value|safe}}
             {%endif%}
          {%endif%}
          <div>Оценки Жюри

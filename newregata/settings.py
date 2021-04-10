@@ -25,7 +25,7 @@ SECRET_KEY = 'mlu!_rpfjvqz5q9#o$i+($^87v7&m46luz3d4f34ffwerfwfern9td*l%h#@@1y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cheweb.ru','localhost','yandex.ru']
+ALLOWED_HOSTS = ['cheweb.ru','localhost','google.com']
 
 
 # Application definition
@@ -37,9 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'easy_thumbnails',
     'exerciseapp',
     'competitionsapp'
 ]
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'preview': {'size': (300, 150), 'crop': True},
+        'main': {'size': (300, 300), 'crop': True},
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -110,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
