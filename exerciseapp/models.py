@@ -23,6 +23,11 @@ class Exercise(models.Model):
     true_answer = models.CharField(verbose_name="Правильный ответ",max_length=255,blank=True)
     score = models.IntegerField(blank=True,default=0)
     image = ThumbnailerImageField(blank=True,null=True,upload_to='exercise/')
+    def get_preview(self):
+        if self.image:
+            return self.image['preview'].url
+        else:
+            return ''
     def get_absolute_url(self):
         return reverse('exercise-detail',args=[self.id])
 

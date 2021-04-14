@@ -15,16 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,re_path,include
-from exerciseapp.views import home
+from exerciseapp.views import home,ExerciseViewSet
 
 from competitionsapp.views import answer_create,score_table,simple_ajax
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 #from exerciseapp.admin import admin_site
+from rest_framework import routers
+router =  routers.DefaultRouter()
+router.register('exercise',ExerciseViewSet)
 
 urlpatterns = [
     path('', home),
+    path('api/',include(router.urls)),
     path('exercise/',include('exerciseapp.urls')),
     path('competitions/',include('competitionsapp.urls')),
     path('admin/', admin.site.urls,name="admin-main"),

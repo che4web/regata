@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'easy_thumbnails',
     'exerciseapp',
-    'competitionsapp'
+    'competitionsapp',
+    'rest_framework',
 ]
 
 THUMBNAIL_ALIASES = {

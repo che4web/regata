@@ -11,7 +11,7 @@ import random
 random_pk = random.randint(1,3)
 print(random_pk)
 urlpatterns = [
-    path('', ExerciseListView2.as_view(),name="exercise-list"),
+    path('', ExerciseListView2.as_view(),name="exercise-list3"),
     path('card/', ExerciseListView2.as_view(),name="exercise-list2"),
     path('random/', exercise_detail,{'pk':random_pk},name="exercise-detail"),
     path('<int:pk>/', exercise_detail,name="exercise-detail"),

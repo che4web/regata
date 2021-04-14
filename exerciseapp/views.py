@@ -5,11 +5,13 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from exerciseapp.models import Exercise
+from exerciseapp.serializers import ExerciseSerializer
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from competitionsapp.models import Answer,Raund
 from competitionsapp.forms import AnswerForm
+from rest_framework import viewsets
 
 # Create your views here.
 
@@ -96,4 +98,12 @@ def exercise_detail(request,pk):
 
 
 
-
+class ExerciseViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    def get_queryset(self):
+        search = self.request.GET.get('search')
+        queryset =super().get_queryset()
+        if search:
+            queryset = queryset.filter(name__icontains=search)
+        return queryset
