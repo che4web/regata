@@ -22,7 +22,6 @@
             </div>
         </nav>
         <div class="container main-content">
-    <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
   </div>
