@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from exerciseapp.models import Exercise
-from competitionsapp.models import Team,Grade,Raund
+from competitionsapp.models import Team,Grade,Raund,Answer
 from django.db.models import Sum,Q,Count
 from django.http import JsonResponse
+from competitionsapp.serializers import AnswerSerializer
 
+from rest_framework import viewsets
 import json
 # Create your views here.
 def answer_create(request):
@@ -62,3 +64,8 @@ def simple_ajax(request):
         grade = Grade(**data)
         grade.save()
     return JsonResponse({'id':grade.id,'answer':grade.answer.id})
+
+class AnswerViewSet(viewsets.ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,re_path,include
 from exerciseapp.views import home,ExerciseViewSet
 
-from competitionsapp.views import answer_create,score_table,simple_ajax
+from competitionsapp.views import answer_create,score_table,simple_ajax,AnswerViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
@@ -25,6 +25,7 @@ from django.contrib.auth import views as auth_views
 from rest_framework import routers
 router =  routers.DefaultRouter()
 router.register('exercise',ExerciseViewSet)
+router.register('answer',AnswerViewSet)
 
 urlpatterns = [
     path('', home),
