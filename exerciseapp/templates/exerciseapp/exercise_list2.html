@@ -3,73 +3,65 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 <h1> Список заданий</h1>
-<div class="row">
-    <div class="col-12">
-        <input id="search_id" class='form-controls' onchange="getExercise()">
-        <button  class="btn btn-primary" onclick="getExercise()"> поиск</button>
-        <button  class="btn btn-primary" onclick="setInputVal()"> Только задачи</button>
+{% verbatim %}
+<div id="app">
+    <input v-model='search'> 
+    <button v-on:click="setTask"> задача</button>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div clas="col-3" v-for="item,index in exercise_list">
+            <div class="card" >
+                <img :src="item.get_preview" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.name}}</h5>
+                    <p class="card-text"> немножко текста</p>
+                    <div > <input v-model="item.value"   class="from-control"> </div>
+                    <button class="btn btn-primary" v-on:click="saveAnswer(item,index)">Оветить</button>
+                    <div >{{item.response}}</div>
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+
 </div>
-<div>
-    вы искали: 
-<span id='search_text_id'></span>
-</div>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-<div id="ajax_data"></div>
-</div>
+{% endverbatim%}
 <script>
-    function setInputVal(){
-        let search = document.getElementById('search_id')
-        search.value ='задача'
-        
-    }
-    function rendeItem(item){
-        let tempalte = `<div clas="col-3">
-                        <div class="card" >
-                            <img src="${item.get_preview}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">${item.name}</h5>
-                                <p class="card-text"> немножко текста</p>
-                                <div > <input  id="answer-${item.id}" class="from-control"> </div>
-                                <button href="${item.get_absolute_url}" class="btn btn-primary" onclick="senAnswer('${item.id}')">Оветить</button>
-                                <div id="answer-response-${item.id}"></div>
-                            </div>
-                        </div>
-                    </div>
-                    `
-        return tempalte
-    
-    }
-    function senAnswer(id){
-        
-        let text = document.getElementById('answer-'+id).value
-        let answer = {
-            value:text,
-            exercise:id
-        }
-        axios.post('/api/answer/',answer).then(response => {
-            let el = document.getElementById('answer-response-'+id)
-            el.innerHTML = 'ваш ответ принят id:' +response.data.id
-        })
 
-    }
-    async function getExercise(){
-        let search = document.getElementById('search_id').value
-        let search_text = document.getElementById('search_text_id').value
-        search_text_id.innerHTML=search
-        let response = await axios.get('/api/exercise/',{params:{search:search}})
-        console.log(response.data)
-        let el = document.getElementById('ajax_data')
-        let template = ''
-        for(let item of response.data){
-            template += rendeItem(item)
+    var app = new Vue({
+        el: '#app',
+        data(){return {
+            message: 'Привет, Vue!',
+            search:'',
+            exercise_list:[],
+        }},
+        watch:{
+            search(){
+                this.getExercise()
+            }
+        },
+        mounted(){
+            this.getExercise()
+        },
+        methods:{
+            async saveAnswer(item,index){
+                let answer ={
+                    exercise:item.id,
+                    value:item.value,
+                }
+                let response = await axios.post('/api/answer/',answer)
+                item.response = 'ваш ответ принять id:' +response.data.id
+                this.$set(this.exercise_list,index,item)
+            
+            },
+            setTask(){
+                this.message = "Задача"
+            },
+            async getExercise(){
+                let response = await axios.get('/api/exercise/',{params:{search:this.search}})
+                this.exercise_list = response.data
+            
+            }
         }
-        el.innerHTML = template
-        
-    }
-
-     var input = document.getElementById('search_id');
-    input.oninput = function(){ getExercise()}
-    getExercise()
+    })
 </script>
 {%endblock%}

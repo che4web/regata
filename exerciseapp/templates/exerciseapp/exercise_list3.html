@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+{%block content %}
+
+<h1> Список заданий</h1>
+<div class="row">
+    <div class="col-12">
+        <input id="search_id" class='form-controls' onchange="getExercise()">
+        <button  class="btn btn-primary" onclick="getExercise()"> поиск</button>
+        <button  class="btn btn-primary" onclick="setInputVal()"> Только задачи</button>
+    </div>
+</div>
+<div>
+    вы искали: 
+<span id='search_text_id'></span>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+<div id="ajax_data"></div>
+</div>
+<script>
+    function setInputVal(){
+        let search = document.getElementById('search_id')
+        search.value ='задача'
+        
+    }
+    function rendeItem(item){
+        let tempalte = `
+        <div clas="col-3">
+                        <div class="card" >
+                            <img src="${item.get_preview}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text"> немножко текста</p>
+                                <div > <input  id="answer-${item.id}" class="from-control"> </div>
+                                <button href="${item.get_absolute_url}" class="btn btn-primary" onclick="senAnswer('${item.id}')">Оветить</button>
+                                <div id="answer-response-${item.id}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    `
+        return tempalte
+    
+    }
+    function senAnswer(id){
+        
+        let text = document.getElementById('answer-'+id).value
+        let answer = {
+            value:text,
+            exercise:id
+        }
+        axios.post('/api/answer/',answer).then(response => {
+            let el = document.getElementById('answer-response-'+id)
+            el.innerHTML = 'ваш ответ принят id:' +response.data.id
+        })
+
+    }
+    async function getExercise(){
+        let search = document.getElementById('search_id').value
+        let search_text = document.getElementById('search_text_id').value
+        search_text_id.innerHTML=search
+        let response = await axios.get('/api/exercise/',{params:{search:search}})
+        console.log(response.data)
+        let el = document.getElementById('ajax_data')
+        let template = ''
+        for(let item of response.data){
+            template += rendeItem(item)
+        }
+        el.innerHTML = template
+        
+    }
+
+     var input = document.getElementById('search_id');
+    input.oninput = function(){ getExercise()}
+    getExercise()
+</script>
+{%endblock%}
