@@ -21,7 +21,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link " aria-current="page" href="{%url 'exercise-list'%}">Список заданий</a>
                         </li>
@@ -32,6 +32,18 @@
                             <a class="nav-link" href="/admin">Админка</a>
                         </li>
                     </ul>
+                    <span class="">
+                        {% if request.user.is_authenticated%}
+                            {% if request.user.team%}
+                                {{request.user.team}}
+                                {%else%}
+                            {{request.user}}
+                            {%endif%}
+                            <a href="/accounts/logout/" class="btn btn-secondary"> Выйти</a>
+                            {%else%}
+                            <a href="/accounts/login/?nex='/'" class="btn btn-primary"> Войти</a>
+                        {%endif%}
+                        <span>
                 </div>
             </div>
         </nav>

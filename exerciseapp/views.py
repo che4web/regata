@@ -41,7 +41,7 @@ class ExerciseListView(MyListView):
             return self.model.objects.none()
 
 
-class ExerciseListView2(ListView):
+class ExerciseListView2(LoginRequiredMixin, ListView):
     model = Exercise
     template_name="exerciseapp/exercise_list2.html"
     def get_queryset(self):
