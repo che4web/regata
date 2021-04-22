@@ -41,7 +41,7 @@ class ExerciseListView(MyListView):
             return self.model.objects.none()
 
 
-class ExerciseListView2(ListView):
+class ExerciseListView2(LoginRequiredMixin,ListView):
     model = Exercise
     template_name="exerciseapp/exercise_list2.html"
     def get_queryset(self):
@@ -66,12 +66,12 @@ def exercise_detail(request,pk):
         judge= None
     if request.method == "POST":
         form =  AnswerForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and not exercise.raund_complite():
             answer = form.save(commit=False)
             answer.team =team
             answer.exercise= exercise
             answer.save()
-            messages.success(request,"MESSAGE:Ответ успешно принять")
+            messages.success(request,"Ответ успешно принят")
 
             return redirect('exercise-list')
             context['success']='Ваш ответ принять'

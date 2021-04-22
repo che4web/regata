@@ -11,9 +11,13 @@ class Exercise(models.Model):
     TYPE_CHOICES=(
         ('I','требует ответа в виде целого числа'),
         ('B','Да или нет'),
-        ('F','Развернутый ответ'),
+        ('F','Вещественное число'),
          )
-    typ= models.CharField(choices=TYPE_CHOICES,blank=True,default='F',max_length=1)
+    typ= models.CharField(choices=TYPE_CHOICES,
+            blank=True,
+            default='I',
+            max_length=1,
+            verbose_name="Тип ответа")
     name = models.CharField(max_length=255,verbose_name="Название задачи")
     text = models.TextField(verbose_name="Полный текст задачи в формате LaTeX")
     solution = models.TextField(
@@ -23,8 +27,11 @@ class Exercise(models.Model):
     true_answer = models.CharField(verbose_name="Правильный ответ",max_length=255,blank=True)
     score = models.IntegerField(blank=True,default=0)
     image = ThumbnailerImageField(blank=True,null=True,upload_to='exercise/')
+    image_solution = ThumbnailerImageField(blank=True,null=True,upload_to='exercise/')
     def get_absolute_url(self):
         return reverse('exercise-detail',args=[self.id])
+    def raund_complite(self):
+        return self.raund_set.filter(status="DO").exists()
 
     def __str__(self):
         return self.name

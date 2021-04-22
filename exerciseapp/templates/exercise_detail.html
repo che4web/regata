@@ -3,7 +3,7 @@
         <h1> Задание {{exercise.id}}</h1>
         <div > <b>Название: </b>{{exercise.name}}</div> 
         <div class="row">
-            <div class="col-8" > <b>Текс: </b>{{exercise.text|safe}}</div> 
+            <div class="col-8" > <b> </b>{{exercise.text|safe}}</div> 
             {% if exercise.image %}
             <div class="col-4">
                 <img  class=" exercise-image" src="{{exercise.image.main.url}}">
@@ -11,12 +11,25 @@
             {%endif%}
 
         </div>
-        {% if exercise.raund.status == "DO" %}
-            <div > <b>Решение: </b>{{exercise.solution}}</div> 
+	{{exercise.round_complite}}
+        {% if exercise.raund_complite %}
+	<hr>
+            <div > <b>Решение: </b>
+		    <div class="row">
+			    <div class="col-8">
+		    {{exercise.solution|safe}}
+		    </div>
+
+
+            {% if exercise.image_solution %}
+            <div class="col-4">
+                <img  class=" exercise-image" src="{{exercise.image_solution.main.url}}">
+            </div>
+            {%endif%}
+</div> 
             {%endif%}
         <div > <b>Баллы: </b>{{exercise.score}}</div> 
             <hr>
-        <h2>Ответ </h2>
         {% if team %}
             {%if success %}
             <div class="alert alert-success">{{success}}</div>
@@ -34,17 +47,6 @@
             {{answer.value|safe}}
             {%endif%}
          {%endif%}
-         <div>Оценки Жюри
-         <ul>
-         {%for x in answer.grade_set.all%}
-         <li> {{x.value}}</li>
-         {%endfor%}
-         </ul>
-        </div>
-	{{judge}}
-	{%if judge %}
-{% include 'answer_table.html' with answer_list=answer_list%}
-{%endif%}
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {%endblock%}

@@ -1,7 +1,10 @@
 {%extends 'base.html'%}
 {% block content%}
-<h1> Зачетная таблица {{raund}} foo:{{foo}}</h1>
-
+</div>
+<h1> Зачетная таблица </h1>
+<div>
+	{%for  liga  in liga_list%}
+	<h2>{{liga.name}}</h2>
 <table class="table table-hover table-striped">
     <thead>
         <tr>
@@ -19,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-        {%for team in score_table%}
+        {%for team in liga.score_table%}
         <tr>
             {%for col in team%}
             <td>{{col}}</td>
@@ -28,4 +31,5 @@
         {%endfor%}
     </tbody>
 </table>
+   {%endfor%}
 {%endblock%}

@@ -5,7 +5,9 @@
 
 body {
     background-color: #fbfbfb;
+    font-size:1.3rem
 }
+
 .bg-nav{
     background-color:#ce283c !important;
     color:white
@@ -15,7 +17,7 @@ body {
 }
 .main-content{
     background-color: #fff;
-    min-height:2000px;
+  /*  min-height:2000px;*/
     padding:20px
 }
 h1{
@@ -33,4 +35,10 @@ h1{
 }
 .background-susccess{
     background:#9cfc9c
+}
+table{
+   font-size:0.9rem;
+}
+th{
+	min-width:100px;
 }

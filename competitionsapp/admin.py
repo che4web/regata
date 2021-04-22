@@ -1,5 +1,5 @@
 from django.contrib import admin
-from competitionsapp.models import Team,Answer,Grade,Judge,Raund
+from competitionsapp.models import Team,Answer,Grade,Judge,Raund,Liga
 #from exerciseapp.admin import admin_site
 
 # Register your models here.
@@ -26,6 +26,9 @@ class RaundAdmin(admin.ModelAdmin):
     pass
 class JudgeAdmin(admin.ModelAdmin):
     pass
+class LigaAdmin(admin.ModelAdmin):
+    pass
+
 
 class GradeAdmin(admin.ModelAdmin):
     pass
@@ -33,3 +36,4 @@ admin.site.register(Grade,GradeAdmin)
 admin.site.register(Raund,RaundAdmin)
 admin.site.register(Team,TeamAdmin)
 admin.site.register(Answer,AnswerAdmin)
+admin.site.register(Liga,LigaAdmin)
