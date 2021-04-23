@@ -41,7 +41,7 @@ class ExerciseListView(MyListView):
             return self.model.objects.none()
 
 
-class ExerciseListView2(LoginRequiredMixin,ListView):
+class ExerciseListView2(LoginRequiredMixin, ListView):
     model = Exercise
     template_name="exerciseapp/exercise_list2.html"
     def get_queryset(self):
@@ -55,6 +55,9 @@ class ExerciseCreateView(CreateView):
 @login_required
 def exercise_detail(request,pk):
     exercise = Exercise.objects.get(id=pk)
+    if exercise.raund_set.filter(status="NO").exists():
+        return redirect('exercise-list')
+
     context ={'exercise':exercise}
     if hasattr(request.user,'team'):
         team = request.user.team
